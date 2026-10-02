@@ -5,6 +5,9 @@ public class Main {
         Context context = new Context();
         context.effectuerOperation();
 
+        context.setStrategy(new StrategyImpl1());
+        context.effectuerOperation();
+
         context.setStrategy(new StrategyImpl2());
         context.effectuerOperation();
 

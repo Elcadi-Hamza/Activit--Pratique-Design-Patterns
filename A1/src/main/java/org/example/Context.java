@@ -1,7 +1,7 @@
 package org.example;
 
 public class Context {
-    private Strategy strategy = new StrategyImpl1();
+    private Strategy strategy = new DefaultlStrategyImpl();
     public void effectuerOperation (){
 //        System.out.println("*************** START **************");
         strategy.operationStrategy();
