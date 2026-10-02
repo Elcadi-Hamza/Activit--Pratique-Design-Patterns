@@ -8,8 +8,8 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         while(true) {
             System.out.println("Quelle strategy ?");
-            String strategyClass = sc.next();
-            Strategy strategy = (Strategy) Class.forName(strategyClass).newInstance();
+            String str = sc.next();
+            Strategy strategy = (Strategy) Class.forName("org.example.StrategyImpl"+str).newInstance();
             context.setStrategy(strategy);
             context.effectuerOperation();
         }
