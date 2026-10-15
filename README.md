@@ -7,5 +7,5 @@ Fillier : GLSID-3
 ## Liste des activités
 
 ### [1. Activité Pratique N°1 - Strategy](A1-Strategy/README.md)
-### [1. Activité Pratique N°2 - Observer ](A2-Observer/README.md)
+### [2. Activité Pratique N°2 - Observer ](A2-Observer/README.md)
 
