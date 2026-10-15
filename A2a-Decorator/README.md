@@ -10,7 +10,7 @@ Référence : https://www.youtube.com/watch?v=FWFW_40nNmY
 
 On a commencé par créer les classes nécessaires pour implémenter le pattern Decorator.
 
-![Diagramme du pattern Decorator](../screenShots/A2/0.png)
+![Diagramme du pattern Decorator](../screenShots/A2a/0.png)
 
 ---
 
