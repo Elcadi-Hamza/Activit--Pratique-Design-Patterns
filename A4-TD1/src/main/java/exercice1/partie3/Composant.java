@@ -1,6 +1,6 @@
 package exercice1.partie3;
 
-public class Composant extends Interface{
+public class Composant implements Interface{
 
     @Override
     public void traitement() {

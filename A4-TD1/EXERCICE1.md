@@ -13,7 +13,7 @@ suivantes :
   (partie1 et partie2) sont variables. On voudrait laisser le développeur la possibilité
   d’implémenter les deux parties manquantes de cet algorithme et on voudrait aussi que
   l’application cliente puisse instancier une implémentation concrète du plugin sans connaitre
-  sa classe d’implémentation.
+  sa classe d’implémentation. \
   ![Diagramme du pattern Strategy](../screenShots/A4/Ex1/2.png)
      <p align="center">Design patter Strategy</p>
 - 3 . On dispose d’un composant implémentant une interface qui définir une opération «
