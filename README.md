@@ -9,4 +9,5 @@ Fillier : GLSID-3
 ### [1. Activité Pratique N°1 - Strategy](A1-Strategy/README.md)
 ### [2. Activité Pratique N°2 - Observer ](A2-Observer/README.md)
 ### [3. Activité Pratique N°2 - Decorator ](A2a-Decorator/README.md)
+### [3. Activité Pratique N°3 - A3-Adapter ](A3-Adapter/README.md)
 
