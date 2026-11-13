@@ -1,100 +1,141 @@
-# Activité Pratique N°5 - Activité Pratique AOP
+# Activité Pratique N°5 : Programmation orientée aspect (AOP)
 
-Nom et prénom : Elcadi Hamza  
-Filière : GLSID-3  
-Références : 
+**Nom et prénom :** Elcadi Hamza  
+**Filière :** GLSID-3  
+**Références :**
 - https://www.youtube.com/watch?v=2tex4z9rwag
 - https://www.youtube.com/watch?v=8dPXOKR3AN8
 - https://www.youtube.com/watch?v=NLhjdiFq63I
 
 ---
-# 1 - Premier reference :
-## 1 - Configuration de projet
-On ajoutons le plugin AspectJ \
-![aspectJ](../screenShots/A5/0.png) \
-et puis on ajoutons en installer aspectj from website https://github.com/eclipse-aspectj/aspectj/releases/tag/V1_9_23?utm_source=chatgpt.com \
-![aspectJ](../screenShots/A5/1.png) \
-on creer le projet
-![creation de projet](../screenShots/A5/2.png) \
-et on ajoutons la libriry
-![lajoute de library](../screenShots/A5/3.png) \
 
-puis on ajoutons la facete aspectj
-![lajoute de library](../screenShots/A5/4.png) \
+# 1. Première référence : prise en main d'AspectJ
 
-## 2 - Creation de simple fonctionalites metier
-on creer un class `Application`
+## 1.1 Configuration du projet
+
+Nous commençons par ajouter le plugin AspectJ à l'IDE :
+
+![aspectJ](../screenShots/A5/0.png)
+
+Ensuite, nous téléchargeons et installons AspectJ depuis la page officielle des versions : https://github.com/eclipse-aspectj/aspectj/releases/tag/V1_9_23
+
+![aspectJ](../screenShots/A5/1.png)
+
+Nous créons ensuite le projet :
+
+![création du projet](../screenShots/A5/2.png)
+
+Puis nous ajoutons la bibliothèque AspectJ au projet :
+
+![ajout de la bibliothèque](../screenShots/A5/3.png)
+
+Enfin, nous ajoutons la facette AspectJ au projet :
+
+![ajout de la facette AspectJ](../screenShots/A5/4.png)
+
+## 1.2 Création d'une fonctionnalité métier simple
+
+Nous créons une classe `Application` avec une méthode `main` qui affiche un message :
+
 ```java
 public class Application {
     public static void main(String[] args) {
         System.out.println("Message From Application");
     }
-
 }
 ```
-## 3 - creation dun aspect avec aspectJ syntax
-on ajoutons un aspect avant et apres l'execution de la methode.
+
+## 1.3 Création d'un aspect avec la syntaxe AspectJ
+
+Nous créons un aspect qui s'exécute avant et après la méthode `main`. Le pointcut `pc1` désigne l'exécution de cette méthode, et les advices `before` et `after` y sont rattachés :
+
 ```java
 public aspect FirstAspect {
     pointcut pc1(): execution(* test.Application.main(..));
 
-    before():pc1(){
+    before(): pc1() {
         System.out.println("before main ---------------------");
     }
-    after():pc1(){
+
+    after(): pc1() {
         System.out.println("after main ---------------------");
     }
 }
 ```
-et on changer le compilateur \
-![lajoute de library](../screenShots/A5/5.png) \
 
-![output](../screenShots/A5/6.png) \
-on essay arround 
+Pour que l'aspect soit tissé (weaving) dans le code, il faut remplacer le compilateur Java par le compilateur AspectJ (`ajc`) dans les paramètres du projet :
+
+![changement du compilateur](../screenShots/A5/5.png)
+
+Résultat de l'exécution :
+
+![résultat](../screenShots/A5/6.png)
+
+Nous testons ensuite l'advice `around`. Il entoure l'exécution de la méthode : l'appel à `proceed()` déclenche l'exécution de la méthode d'origine.
+
 ```java
-void around():pc1(){
+void around(): pc1() {
     System.out.println("before ---------------------------");
     proceed();
     System.out.println("after ---------------------------");
-
 }
 ```
-![output](../screenShots/A5/6.png) \
 
-## 4 - Creation d'aspect avec class syntax
-on creer un aspect `SecondAspect`
+Résultat de l'exécution :
+
+![résultat](../screenShots/A5/6.png)
+
+## 1.4 Création d'un aspect avec la syntaxe des classes (annotations)
+
+AspectJ permet aussi de définir un aspect comme une classe Java ordinaire, grâce aux annotations. Nous créons l'aspect `SecondAspect` :
+
 ```java
 @Aspect
 public class SecondAspect {
     @Pointcut("execution(* test.*.main(..))")
-    public void pc1(){}
+    public void pc1() {}
+
     @Before("pc1()")
-    public void beforeMain(){
+    public void beforeMain() {
         System.out.println("before main ---------------------------");
     }
+
     @After("pc1()")
-    public void afterMain(){
+    public void afterMain() {
         System.out.println("after main ---------------------------");
     }
 }
 ```
-![output](../screenShots/A5/7.png) \
-on test l'evenement around
+
+Résultat de l'exécution :
+
+![résultat](../screenShots/A5/7.png)
+
+Nous testons ensuite l'advice `@Around`. Avec cette syntaxe, l'objet `ProceedingJoinPoint` permet de contrôler l'exécution de la méthode ciblée via `proceed()` :
+
 ```java
 @Around("pc1()")
 public void aroundMain(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
     System.out.println("before main ---------------------------");
     proceedingJoinPoint.proceed();
     System.out.println("after main ---------------------------");
-
 }
 ```
-![output](../screenShots/A5/7.png) \
 
-# 2 - Deuxieme reference :
-## 1 - code metier :
-on creer les class :
-- `metier.Compte`
+Résultat de l'exécution :
+
+![résultat](../screenShots/A5/7.png)
+
+---
+
+# 2. Deuxième référence : application bancaire avec plusieurs aspects
+
+## 2.1 Code métier
+
+Nous créons les classes et l'interface suivantes.
+
+**`metier.Compte`** : représente un compte bancaire (code et solde).
+
 ```java
 public class Compte {
     private Long code;
@@ -109,14 +150,6 @@ public class Compte {
         return code;
     }
 
-    @Override
-    public String toString() {
-        return "Compte{" +
-                "code=" + code +
-                ", solde=" + solde +
-                '}';
-    }
-
     public void setCode(Long code) {
         this.code = code;
     }
@@ -128,63 +161,86 @@ public class Compte {
     public void setSolde(double solde) {
         this.solde = solde;
     }
+
+    @Override
+    public String toString() {
+        return "Compte{" +
+                "code=" + code +
+                ", solde=" + solde +
+                '}';
+    }
 }
 ```
-- `metier.IMetier`
+
+**`metier.IMetier`** : définit les opérations disponibles.
+
 ```java
 public interface IMetier {
     void addCompte(Compte cp);
-    void verser(Long code,double mt);
-    void retirer(Long code,double mt);
+    void verser(Long code, double mt);
+    void retirer(Long code, double mt);
     Compte getCompte(Long code);
 }
 ```
-- `metier.MetierImpl`
+
+**`metier.MetierImpl`** : implémente ces opérations en stockant les comptes dans une `HashMap`.
+
 ```java
 public class MetierImpl implements IMetier {
-    private Map<Long,Compte> comptes=new HashMap<>();
+    private Map<Long, Compte> comptes = new HashMap<>();
+
     @Override
     public void addCompte(Compte cp) {
-        comptes.put(cp.getCode(),cp);
+        comptes.put(cp.getCode(), cp);
     }
+
     @Override
     public void verser(Long code, double mt) {
-        Compte cp=comptes.get(code);
-        cp.setSolde(cp.getSolde()+mt);
+        Compte cp = comptes.get(code);
+        cp.setSolde(cp.getSolde() + mt);
     }
+
     @Override
     public void retirer(Long code, double mt) {
-        Compte cp=comptes.get(code);
-        cp.setSolde(cp.getSolde()-mt);
+        Compte cp = comptes.get(code);
+        cp.setSolde(cp.getSolde() - mt);
     }
+
     @Override
     public Compte getCompte(Long code) {
         return comptes.get(code);
     }
 }
 ```
-- 'test.Application'
+
+**`test.Application`** : application console qui permet de créer un compte, puis d'effectuer des versements (`v`), des retraits (`r`) ou de quitter (`q`).
+
 ```java
 public class Application {
     public static void main(String[] args) {
         new Application().start();
     }
+
     private void start() {
         System.out.println("Starting Application .....");
-        IMetier metier=new MetierImpl();
-        Scanner clavier=new Scanner(System.in);
-        System.out.print("Code:");Long code=clavier.nextLong();
-        System.out.print("Solde:");double solde=clavier.nextDouble();
-        metier.addCompte(new Compte(code,solde));
-        while (true){
+        IMetier metier = new MetierImpl();
+        Scanner clavier = new Scanner(System.in);
+        System.out.print("Code:");
+        Long code = clavier.nextLong();
+        System.out.print("Solde:");
+        double solde = clavier.nextDouble();
+        metier.addCompte(new Compte(code, solde));
+        while (true) {
             try {
                 System.out.println("=========================================");
                 System.out.println(metier.getCompte(code).toString());
-                System.out.print("Type Opération:");String type=clavier.next();
-                if(type.equals("q")) break;
-                System.out.print("Montant:");double montant=clavier.nextDouble();
-                if(type.toLowerCase().equals("v")) metier.verser(code,montant);
-                else if(type.toLowerCase().equals("r")) metier.retirer(code,montant);
+                System.out.print("Type Opération:");
+                String type = clavier.next();
+                if (type.equals("q")) break;
+                System.out.print("Montant:");
+                double montant = clavier.nextDouble();
+                if (type.toLowerCase().equals("v")) metier.verser(code, montant);
+                else if (type.toLowerCase().equals("r")) metier.retirer(code, montant);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
@@ -192,102 +248,170 @@ public class Application {
     }
 }
 ```
-test : \
-![output](../screenShots/A5/8.png) \
-On vois que l'utilisateur peut entrer des montant superieur a solde et avoir un solde negative on va fixer ca par des aspects
-## 2 - code Aspect
-- `aspects.LoggingAspect`
-```java
 
+Test de l'application :
+
+![résultat](../screenShots/A5/8.png)
+
+**Constat :** l'utilisateur peut retirer un montant supérieur au solde, ce qui donne un solde négatif. Nous allons corriger ce problème avec des aspects, sans modifier le code métier.
+
+## 2.2 Code des aspects
+
+### `aspects.LoggingAspect` : journalisation et mesure du temps d'exécution
+
+Cet aspect affiche un message avant et après chaque méthode de `MetierImpl`, et mesure sa durée d'exécution :
+
+```java
 @Aspect
 public class LoggingAspect {
-    long t1,t2;
+    long t1, t2;
+
     @Pointcut("execution(* metier.MetierImpl.*(..))")
-    public void pc1(){}
+    public void pc1() {}
 
     @Before("pc1()")
-    public void avant(JoinPoint joinPoint){
+    public void avant(JoinPoint joinPoint) {
         t1 = System.currentTimeMillis();
-        System.out.println("Avant "+joinPoint.getSignature()+" --------------------------");
+        System.out.println("Avant " + joinPoint.getSignature() + " --------------------------");
     }
 
     @After("pc1()")
-    public void apres(JoinPoint joinPoint){
-        System.out.println("Apres "+joinPoint.getSignature()+" --------------------------");
+    public void apres(JoinPoint joinPoint) {
+        System.out.println("Après " + joinPoint.getSignature() + " --------------------------");
         t2 = System.currentTimeMillis();
-        System.out.println("Durre dexecution : "+ (t2-t1) );
+        System.out.println("Durée d'exécution : " + (t2 - t1));
         System.out.println("-----------------------------------");
     }
 }
 ```
-![output](../screenShots/A5/9.png) \
-![output](../screenShots/A5/10.png) \
-on ajoute un framework de journalisation
+
+Résultats :
+
+![résultat](../screenShots/A5/9.png)
+![résultat](../screenShots/A5/10.png)
+
+Nous remplaçons ensuite `System.out.println` par un framework de journalisation (`java.util.logging`), plus adapté à une application réelle :
+
 ```java
 @Aspect
 public class LoggingAspect {
-    private Logger logger=Logger.getLogger(this.getClass().getName());
-    long t1,t2;
+    private Logger logger = Logger.getLogger(this.getClass().getName());
+    long t1, t2;
+
     @Pointcut("execution(* metier.MetierImpl.*(..))")
-    public void pc1(){}
+    public void pc1() {}
 
     @Before("pc1()")
-    public void avant(JoinPoint joinPoint){
+    public void avant(JoinPoint joinPoint) {
         t1 = System.currentTimeMillis();
-        logger.info("Avant "+joinPoint.getSignature()+" --------------------------");
+        logger.info("Avant " + joinPoint.getSignature() + " --------------------------");
     }
 
     @After("pc1()")
-    public void apres(JoinPoint joinPoint){
+    public void apres(JoinPoint joinPoint) {
         t2 = System.currentTimeMillis();
-        logger.info("Apres "+joinPoint.getSignature()+" --------------------------");
-        logger.info("Durre dexecution : "+ (t2-t1) );
+        logger.info("Après " + joinPoint.getSignature() + " --------------------------");
+        logger.info("Durée d'exécution : " + (t2 - t1));
         logger.info("-----------------------------------");
     }
 }
 ```
-![output](../screenShots/A5/11.png) \
 
-puis on savegarder dans un fichier :
+Résultat :
+
+![résultat](../screenShots/A5/11.png)
+
+Ensuite, nous sauvegardons les logs dans un fichier XML grâce à un `FileHandler`. L'appel à `setUseParentHandlers(false)` désactive l'affichage dans la console :
+
 ```java
 public LoggingAspect() throws IOException {
     logger.addHandler(new FileHandler("log.xml"));
     logger.setUseParentHandlers(false);
 }
 ```
-![output](../screenShots/A5/12.png) \
-On peut ajouter la methode `autour`
+
+Résultat :
+
+![résultat](../screenShots/A5/12.png)
+
+Nous pouvons aussi regrouper les deux advices (`@Before` et `@After`) en un seul advice `@Around`. Cette version est préférable : les temps `t1` et `t2` sont des variables locales (et non des attributs de la classe), ce qui évite les problèmes en cas d'exécution simultanée de plusieurs threads. Il suffit d'utiliser `ProceedingJoinPoint`, qui hérite de `JoinPoint` et donne donc aussi accès à la signature de la méthode :
+
 ```java
 @Around("pc1()")
-public Object autour(ProceedingJoinPoint proceedingJoinPoint, JoinPoint joinPoint) throws Throwable {
+public Object autour(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
     long t1 = System.currentTimeMillis();
-    logger.info("Avant "+joinPoint.getSignature()+" --------------------------");
+    logger.info("Avant " + proceedingJoinPoint.getSignature() + " --------------------------");
     Object result = proceedingJoinPoint.proceed();
     long t2 = System.currentTimeMillis();
-    logger.info("Apres "+joinPoint.getSignature()+" --------------------------");
-    logger.info("Durre dexecution : "+ (t2-t1) );
+    logger.info("Après " + proceedingJoinPoint.getSignature() + " --------------------------");
+    logger.info("Durée d'exécution : " + (t2 - t1));
     return result;
 }
 ```
-![output](../screenShots/A5/12.png) \
 
-- `aspects.PatchAspect`
+Résultat :
+
+![résultat](../screenShots/A5/12.png)
+
+### `aspects.PatchAspect` : correction du retrait
+
+Cet aspect corrige le problème constaté plus haut. Il intercepte la méthode `retirer`, récupère le compte concerné, puis ne laisse la méthode s'exécuter que si le solde est suffisant. Sinon, il lève une exception. L'expression `args(code, mt)` permet de récupérer les paramètres de la méthode interceptée.
+
 ```java
 @Aspect
 public class PatchAspect {
-    @Around("execution(* metier.MetierImpl.retirer(..))&&args(code,mt)")
-    public void patch(Long code, double mt, JoinPoint joinPoint, ProceedingJoinPoint
-            proceedingJoinPoint) throws Throwable {
-        MetierImpl metier=(MetierImpl) joinPoint.getTarget();
-        Compte cp=metier.getCompte(code);
-        if(cp.getSolde()>mt) {
-            Object o = proceedingJoinPoint.proceed();
-        }
-        else
+    @Around("execution(* metier.MetierImpl.retirer(..)) && args(code, mt)")
+    public void patch(Long code, double mt, ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+        MetierImpl metier = (MetierImpl) proceedingJoinPoint.getTarget();
+        Compte cp = metier.getCompte(code);
+        if (cp.getSolde() >= mt) {
+            proceedingJoinPoint.proceed();
+        } else {
             throw new RuntimeException("Solde insuffisant");
+        }
     }
 }
 ```
-![output](../screenShots/A5/13.png) \
 
-- `aspects.PatchAspect`
+Résultat :
+
+![résultat](../screenShots/A5/13.png)
+
+### `aspects.SecurityAspect` : authentification
+
+Cet aspect ajoute une authentification avant le démarrage de l'application. Le pointcut `call(...)` intercepte l'appel à la méthode `start()`. Si le nom d'utilisateur et le mot de passe sont corrects, l'application démarre ; sinon l'accès est refusé.
+
+```java
+@Aspect
+public class SecurityAspect {
+    private String username = "root";
+    private String password = "123";
+
+    @Around("call(* test.Application.start(..))")
+    public void secureApp(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Authentication");
+        System.out.print("Username :");
+        String user = scanner.next();
+        System.out.print("Password :");
+        String pass = scanner.next();
+        if (user.equals(username) && pass.equals(password)) {
+            System.out.println("Before starting");
+            proceedingJoinPoint.proceed();
+            System.out.println("End of Application");
+        } else {
+            System.out.println("Access denied ...");
+        }
+    }
+}
+```
+
+Résultat :
+
+![résultat](../screenShots/A5/14.png)
+
+---
+
+# Conclusion
+
+Cette activité montre l'intérêt de l'AOP : les préoccupations transversales (journalisation, mesure de performance, validation, sécurité) sont séparées du code métier. Les classes `Compte`, `IMetier`, `MetierImpl` et `Application` n'ont pas été modifiées, alors que le comportement de l'application a été enrichi et corrigé uniquement grâce aux aspects.
