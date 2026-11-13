@@ -8,7 +8,8 @@ Références :
 - https://www.youtube.com/watch?v=NLhjdiFq63I
 
 ---
-# 1 - Configuration de projet
+# 1 - Premier reference :
+## 1 - Configuration de projet
 On ajoutons le plugin AspectJ \
 ![aspectJ](../screenShots/A5/0.png) \
 et puis on ajoutons en installer aspectj from website https://github.com/eclipse-aspectj/aspectj/releases/tag/V1_9_23?utm_source=chatgpt.com \
@@ -21,7 +22,7 @@ et on ajoutons la libriry
 puis on ajoutons la facete aspectj
 ![lajoute de library](../screenShots/A5/4.png) \
 
-# 2 - Creation de simple fonctionalites metier
+## 2 - Creation de simple fonctionalites metier
 on creer un class `Application`
 ```java
 public class Application {
@@ -31,7 +32,7 @@ public class Application {
 
 }
 ```
-# 3 - creation dun aspect classique
+## 3 - creation dun aspect avec aspectJ syntax
 on ajoutons un aspect avant et apres l'execution de la methode.
 ```java
 public aspect FirstAspect {
@@ -60,7 +61,7 @@ void around():pc1(){
 ```
 ![output](../screenShots/A5/6.png) \
 
-# 4 - Creation d'aspect avec des annotations
+## 4 - Creation d'aspect avec class syntax
 on creer un aspect `SecondAspect`
 ```java
 @Aspect
@@ -78,3 +79,49 @@ public class SecondAspect {
 }
 ```
 ![output](../screenShots/A5/7.png) \
+on test l'evenement around
+```java
+@Around("pc1()")
+public void aroundMain(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+    System.out.println("before main ---------------------------");
+    proceedingJoinPoint.proceed();
+    System.out.println("after main ---------------------------");
+
+}
+```
+![output](../screenShots/A5/7.png) \
+
+# 2 - Deuxieme reference :
+on creer les class :
+- `metier.Compte`
+```java
+public class compte {
+    private Long code;
+    private double solde;
+
+    public compte(Long code, double solde) {
+        this.code = code;
+        this.solde = solde;
+    }
+
+    public Long getCode() {
+        return code;
+    }
+
+    public void setCode(Long code) {
+        this.code = code;
+    }
+
+    public double getSolde() {
+        return solde;
+    }
+
+    public void setSolde(double solde) {
+        this.solde = solde;
+    }
+}
+```
+- `metier.IMetier`
+```java
+
+```
