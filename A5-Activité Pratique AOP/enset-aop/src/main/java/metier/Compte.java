@@ -1,16 +1,24 @@
 package metier;
 
-public class compte {
+public class Compte {
     private Long code;
     private double solde;
 
-    public compte(Long code, double solde) {
+    public Compte(Long code, double solde) {
         this.code = code;
         this.solde = solde;
     }
 
     public Long getCode() {
         return code;
+    }
+
+    @Override
+    public String toString() {
+        return "Compte{" +
+                "code=" + code +
+                ", solde=" + solde +
+                '}';
     }
 
     public void setCode(Long code) {

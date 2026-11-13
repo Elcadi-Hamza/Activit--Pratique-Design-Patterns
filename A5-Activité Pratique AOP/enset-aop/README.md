@@ -92,20 +92,29 @@ public void aroundMain(ProceedingJoinPoint proceedingJoinPoint) throws Throwable
 ![output](../screenShots/A5/7.png) \
 
 # 2 - Deuxieme reference :
+## 1 - code metier :
 on creer les class :
 - `metier.Compte`
 ```java
-public class compte {
+public class Compte {
     private Long code;
     private double solde;
 
-    public compte(Long code, double solde) {
+    public Compte(Long code, double solde) {
         this.code = code;
         this.solde = solde;
     }
 
     public Long getCode() {
         return code;
+    }
+
+    @Override
+    public String toString() {
+        return "Compte{" +
+                "code=" + code +
+                ", solde=" + solde +
+                '}';
     }
 
     public void setCode(Long code) {
@@ -123,5 +132,69 @@ public class compte {
 ```
 - `metier.IMetier`
 ```java
-
+public interface IMetier {
+    void addCompte(Compte cp);
+    void verser(Long code,double mt);
+    void retirer(Long code,double mt);
+    Compte getCompte(Long code);
+}
 ```
+- `metier.MetierImpl`
+```java
+public class MetierImpl implements IMetier {
+    private Map<Long,Compte> comptes=new HashMap<>();
+    @Override
+    public void addCompte(Compte cp) {
+        comptes.put(cp.getCode(),cp);
+    }
+    @Override
+    public void verser(Long code, double mt) {
+        Compte cp=comptes.get(code);
+        cp.setSolde(cp.getSolde()+mt);
+    }
+    @Override
+    public void retirer(Long code, double mt) {
+        Compte cp=comptes.get(code);
+        cp.setSolde(cp.getSolde()-mt);
+    }
+    @Override
+    public Compte getCompte(Long code) {
+        return comptes.get(code);
+    }
+}
+```
+- 'test.Application'
+```java
+public class Application {
+    public static void main(String[] args) {
+        new Application().start();
+    }
+    private void start() {
+        System.out.println("Starting Application .....");
+        IMetier metier=new MetierImpl();
+        Scanner clavier=new Scanner(System.in);
+        System.out.print("Code:");Long code=clavier.nextLong();
+        System.out.print("Solde:");double solde=clavier.nextDouble();
+        metier.addCompte(new Compte(code,solde));
+        while (true){
+            try {
+                System.out.println("=========================================");
+                System.out.println(metier.getCompte(code).toString());
+                System.out.print("Type Opération:");String type=clavier.next();
+                if(type.equals("q")) break;
+                System.out.print("Montant:");double montant=clavier.nextDouble();
+                if(type.toLowerCase().equals("v")) metier.verser(code,montant);
+                else if(type.toLowerCase().equals("r")) metier.retirer(code,montant);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+}
+```
+test : \
+![output](../screenShots/A5/8.png) \
+On vois que l'utilisateur peut entrer des montant superieur a solde et avoir un solde negative on va fixer ca par des aspects
+## 2 - code Aspect
+Ajoutons la securiter
+`aspects.LoginAspect`
