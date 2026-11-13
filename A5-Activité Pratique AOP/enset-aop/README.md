@@ -255,3 +255,39 @@ public LoggingAspect() throws IOException {
     logger.setUseParentHandlers(false);
 }
 ```
+![output](../screenShots/A5/12.png) \
+On peut ajouter la methode `autour`
+```java
+@Around("pc1()")
+public Object autour(ProceedingJoinPoint proceedingJoinPoint, JoinPoint joinPoint) throws Throwable {
+    long t1 = System.currentTimeMillis();
+    logger.info("Avant "+joinPoint.getSignature()+" --------------------------");
+    Object result = proceedingJoinPoint.proceed();
+    long t2 = System.currentTimeMillis();
+    logger.info("Apres "+joinPoint.getSignature()+" --------------------------");
+    logger.info("Durre dexecution : "+ (t2-t1) );
+    return result;
+}
+```
+![output](../screenShots/A5/12.png) \
+
+- `aspects.PatchAspect`
+```java
+@Aspect
+public class PatchAspect {
+    @Around("execution(* metier.MetierImpl.retirer(..))&&args(code,mt)")
+    public void patch(Long code, double mt, JoinPoint joinPoint, ProceedingJoinPoint
+            proceedingJoinPoint) throws Throwable {
+        MetierImpl metier=(MetierImpl) joinPoint.getTarget();
+        Compte cp=metier.getCompte(code);
+        if(cp.getSolde()>mt) {
+            Object o = proceedingJoinPoint.proceed();
+        }
+        else
+            throw new RuntimeException("Solde insuffisant");
+    }
+}
+```
+![output](../screenShots/A5/13.png) \
+
+- `aspects.PatchAspect`

@@ -1,10 +1,8 @@
 package aspects;
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.*;
 
 import java.io.IOException;
 import java.util.logging.FileHandler;
@@ -38,4 +36,14 @@ public class LoggingAspect {
         logger.info("Durre dexecution : "+ (t2-t1) );
         logger.info("-----------------------------------");
     }
+//    @Around("pc1()")
+//    public Object autour(ProceedingJoinPoint proceedingJoinPoint, JoinPoint joinPoint) throws Throwable {
+//        long t1 = System.currentTimeMillis();
+//        logger.info("Avant "+joinPoint.getSignature()+" --------------------------");
+//        Object result = proceedingJoinPoint.proceed();
+//        long t2 = System.currentTimeMillis();
+//        logger.info("Apres "+joinPoint.getSignature()+" --------------------------");
+//        logger.info("Durre dexecution : "+ (t2-t1) );
+//        return result;
+//    }
 }
