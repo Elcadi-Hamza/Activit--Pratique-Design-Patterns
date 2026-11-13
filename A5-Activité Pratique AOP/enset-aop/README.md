@@ -196,5 +196,62 @@ test : \
 ![output](../screenShots/A5/8.png) \
 On vois que l'utilisateur peut entrer des montant superieur a solde et avoir un solde negative on va fixer ca par des aspects
 ## 2 - code Aspect
-Ajoutons la securiter
-`aspects.LoginAspect`
+- `aspects.LoggingAspect`
+```java
+
+@Aspect
+public class LoggingAspect {
+    long t1,t2;
+    @Pointcut("execution(* metier.MetierImpl.*(..))")
+    public void pc1(){}
+
+    @Before("pc1()")
+    public void avant(JoinPoint joinPoint){
+        t1 = System.currentTimeMillis();
+        System.out.println("Avant "+joinPoint.getSignature()+" --------------------------");
+    }
+
+    @After("pc1()")
+    public void apres(JoinPoint joinPoint){
+        System.out.println("Apres "+joinPoint.getSignature()+" --------------------------");
+        t2 = System.currentTimeMillis();
+        System.out.println("Durre dexecution : "+ (t2-t1) );
+        System.out.println("-----------------------------------");
+    }
+}
+```
+![output](../screenShots/A5/9.png) \
+![output](../screenShots/A5/10.png) \
+on ajoute un framework de journalisation
+```java
+@Aspect
+public class LoggingAspect {
+    private Logger logger=Logger.getLogger(this.getClass().getName());
+    long t1,t2;
+    @Pointcut("execution(* metier.MetierImpl.*(..))")
+    public void pc1(){}
+
+    @Before("pc1()")
+    public void avant(JoinPoint joinPoint){
+        t1 = System.currentTimeMillis();
+        logger.info("Avant "+joinPoint.getSignature()+" --------------------------");
+    }
+
+    @After("pc1()")
+    public void apres(JoinPoint joinPoint){
+        t2 = System.currentTimeMillis();
+        logger.info("Apres "+joinPoint.getSignature()+" --------------------------");
+        logger.info("Durre dexecution : "+ (t2-t1) );
+        logger.info("-----------------------------------");
+    }
+}
+```
+![output](../screenShots/A5/11.png) \
+
+puis on savegarder dans un fichier :
+```java
+public LoggingAspect() throws IOException {
+    logger.addHandler(new FileHandler("log.xml"));
+    logger.setUseParentHandlers(false);
+}
+```

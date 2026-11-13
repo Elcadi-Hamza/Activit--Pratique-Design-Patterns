@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2026-11-13T15:28:29.630534300Z</date>
+  <millis>1794583709630</millis>
+  <nanos>534300</nanos>
+  <sequence>0</sequence>
+  <logger>aspects.LoggingAspect</logger>
+  <level>INFO</level>
+  <class>aspects.LoggingAspect</class>
+  <method>avant</method>
+  <thread>1</thread>
+  <message>Avant void metier.MetierImpl.addCompte(Compte) --------------------------</message>
+</record>
+<record>
+  <date>2026-11-13T15:28:29.641249500Z</date>
+  <millis>1794583709641</millis>
+  <nanos>249500</nanos>
+  <sequence>1</sequence>
+  <logger>aspects.LoggingAspect</logger>
+  <level>INFO</level>
+  <class>aspects.LoggingAspect</class>
+  <method>apres</method>
+  <thread>1</thread>
+  <message>Apres void metier.MetierImpl.addCompte(Compte) --------------------------</message>
+</record>
+<record>
+  <date>2026-11-13T15:28:29.642254900Z</date>
+  <millis>1794583709642</millis>
+  <nanos>254900</nanos>
+  <sequence>2</sequence>
+  <logger>aspects.LoggingAspect</logger>
+  <level>INFO</level>
+  <class>aspects.LoggingAspect</class>
+  <method>apres</method>
+  <thread>1</thread>
+  <message>Durre dexecution : 14</message>
+</record>
+<record>
+  <date>2026-11-13T15:28:29.642254900Z</date>
+  <millis>1794583709642</millis>
+  <nanos>254900</nanos>
+  <sequence>3</sequence>
+  <logger>aspects.LoggingAspect</logger>
+  <level>INFO</level>
+  <class>aspects.LoggingAspect</class>
+  <method>apres</method>
+  <thread>1</thread>
+  <message>-----------------------------------</message>
+</record>
+<record>
+  <date>2026-11-13T15:28:29.643249600Z</date>
+  <millis>1794583709643</millis>
+  <nanos>249600</nanos>
+  <sequence>4</sequence>
+  <logger>aspects.LoggingAspect</logger>
+  <level>INFO</level>
+  <class>aspects.LoggingAspect</class>
+  <method>avant</method>
+  <thread>1</thread>
+  <message>Avant Compte metier.MetierImpl.getCompte(Long) --------------------------</message>
+</record>
+<record>
+  <date>2026-11-13T15:28:29.644257Z</date>
+  <millis>1794583709644</millis>
+  <nanos>257000</nanos>
+  <sequence>5</sequence>
+  <logger>aspects.LoggingAspect</logger>
+  <level>INFO</level>
+  <class>aspects.LoggingAspect</class>
+  <method>apres</method>
+  <thread>1</thread>
+  <message>Apres Compte metier.MetierImpl.getCompte(Long) --------------------------</message>
+</record>
+<record>
+  <date>2026-11-13T15:28:29.645249500Z</date>
+  <millis>1794583709645</millis>
+  <nanos>249500</nanos>
+  <sequence>6</sequence>
+  <logger>aspects.LoggingAspect</logger>
+  <level>INFO</level>
+  <class>aspects.LoggingAspect</class>
+  <method>apres</method>
+  <thread>1</thread>
+  <message>Durre dexecution : 1</message>
+</record>
+<record>
+  <date>2026-11-13T15:28:29.645249500Z</date>
+  <millis>1794583709645</millis>
+  <nanos>249500</nanos>
+  <sequence>7</sequence>
+  <logger>aspects.LoggingAspect</logger>
+  <level>INFO</level>
+  <class>aspects.LoggingAspect</class>
+  <method>apres</method>
+  <thread>1</thread>
+  <message>-----------------------------------</message>
+</record>
+<record>
+  <date>2026-11-13T15:28:35.667449700Z</date>
+  <millis>1794583715667</millis>
+  <nanos>449700</nanos>
+  <sequence>8</sequence>
+  <logger>aspects.LoggingAspect</logger>
+  <level>INFO</level>
+  <class>aspects.LoggingAspect</class>
+  <method>avant</method>
+  <thread>1</thread>
+  <message>Avant void metier.MetierImpl.verser(Long, double) --------------------------</message>
+</record>
+<record>
+  <date>2026-11-13T15:28:35.668452800Z</date>
+  <millis>1794583715668</millis>
+  <nanos>452800</nanos>
+  <sequence>9</sequence>
+  <logger>aspects.LoggingAspect</logger>
+  <level>INFO</level>
+  <class>aspects.LoggingAspect</class>
+  <method>apres</method>
+  <thread>1</thread>
+  <message>Apres void metier.MetierImpl.verser(Long, double) --------------------------</message>
+</record>
+<record>
+  <date>2026-11-13T15:28:35.669455900Z</date>
+  <millis>1794583715669</millis>
+  <nanos>455900</nanos>
+  <sequence>10</sequence>
+  <logger>aspects.LoggingAspect</logger>
+  <level>INFO</level>
+  <class>aspects.LoggingAspect</class>
+  <method>apres</method>
+  <thread>1</thread>
+  <message>Durre dexecution : 1</message>
+</record>
+<record>
+  <date>2026-11-13T15:28:35.669455900Z</date>
+  <millis>1794583715669</millis>
+  <nanos>455900</nanos>
+  <sequence>11</sequence>
+  <logger>aspects.LoggingAspect</logger>
+  <level>INFO</level>
+  <class>aspects.LoggingAspect</class>
+  <method>apres</method>
+  <thread>1</thread>
+  <message>-----------------------------------</message>
+</record>
+<record>
+  <date>2026-11-13T15:28:35.671450Z</date>
+  <millis>1794583715671</millis>
+  <nanos>450000</nanos>
+  <sequence>12</sequence>
+  <logger>aspects.LoggingAspect</logger>
+  <level>INFO</level>
+  <class>aspects.LoggingAspect</class>
+  <method>avant</method>
+  <thread>1</thread>
+  <message>Avant Compte metier.MetierImpl.getCompte(Long) --------------------------</message>
+</record>
+<record>
+  <date>2026-11-13T15:28:35.672455900Z</date>
+  <millis>1794583715672</millis>
+  <nanos>455900</nanos>
+  <sequence>13</sequence>
+  <logger>aspects.LoggingAspect</logger>
+  <level>INFO</level>
+  <class>aspects.LoggingAspect</class>
+  <method>apres</method>
+  <thread>1</thread>
+  <message>Apres Compte metier.MetierImpl.getCompte(Long) --------------------------</message>
+</record>
+<record>
+  <date>2026-11-13T15:28:35.674986500Z</date>
+  <millis>1794583715674</millis>
+  <nanos>986500</nanos>
+  <sequence>14</sequence>
+  <logger>aspects.LoggingAspect</logger>
+  <level>INFO</level>
+  <class>aspects.LoggingAspect</class>
+  <method>apres</method>
+  <thread>1</thread>
+  <message>Durre dexecution : 1</message>
+</record>
+<record>
+  <date>2026-11-13T15:28:35.675985500Z</date>
+  <millis>1794583715675</millis>
+  <nanos>985500</nanos>
+  <sequence>15</sequence>
+  <logger>aspects.LoggingAspect</logger>
+  <level>INFO</level>
+  <class>aspects.LoggingAspect</class>
+  <method>apres</method>
+  <thread>1</thread>
+  <message>-----------------------------------</message>
+</record>
+<record>
+  <date>2026-11-13T15:28:55.854911300Z</date>
+  <millis>1794583735854</millis>
+  <nanos>911300</nanos>
+  <sequence>16</sequence>
+  <logger>aspects.LoggingAspect</logger>
+  <level>INFO</level>
+  <class>aspects.LoggingAspect</class>
+  <method>avant</method>
+  <thread>1</thread>
+  <message>Avant void metier.MetierImpl.retirer(Long, double) --------------------------</message>
+</record>
+<record>
+  <date>2026-11-13T15:28:55.855910200Z</date>
+  <millis>1794583735855</millis>
+  <nanos>910200</nanos>
+  <sequence>17</sequence>
+  <logger>aspects.LoggingAspect</logger>
+  <level>INFO</level>
+  <class>aspects.LoggingAspect</class>
+  <method>apres</method>
+  <thread>1</thread>
+  <message>Apres void metier.MetierImpl.retirer(Long, double) --------------------------</message>
+</record>
+<record>
+  <date>2026-11-13T15:28:55.856912600Z</date>
+  <millis>1794583735856</millis>
+  <nanos>912600</nanos>
+  <sequence>18</sequence>
+  <logger>aspects.LoggingAspect</logger>
+  <level>INFO</level>
+  <class>aspects.LoggingAspect</class>
+  <method>apres</method>
+  <thread>1</thread>
+  <message>Durre dexecution : 1</message>
+</record>
+<record>
+  <date>2026-11-13T15:28:55.857914400Z</date>
+  <millis>1794583735857</millis>
+  <nanos>914400</nanos>
+  <sequence>19</sequence>
+  <logger>aspects.LoggingAspect</logger>
+  <level>INFO</level>
+  <class>aspects.LoggingAspect</class>
+  <method>apres</method>
+  <thread>1</thread>
+  <message>-----------------------------------</message>
+</record>
+<record>
+  <date>2026-11-13T15:28:55.858914700Z</date>
+  <millis>1794583735858</millis>
+  <nanos>914700</nanos>
+  <sequence>20</sequence>
+  <logger>aspects.LoggingAspect</logger>
+  <level>INFO</level>
+  <class>aspects.LoggingAspect</class>
+  <method>avant</method>
+  <thread>1</thread>
+  <message>Avant Compte metier.MetierImpl.getCompte(Long) --------------------------</message>
+</record>
+<record>
+  <date>2026-11-13T15:28:55.859913200Z</date>
+  <millis>1794583735859</millis>
+  <nanos>913200</nanos>
+  <sequence>21</sequence>
+  <logger>aspects.LoggingAspect</logger>
+  <level>INFO</level>
+  <class>aspects.LoggingAspect</class>
+  <method>apres</method>
+  <thread>1</thread>
+  <message>Apres Compte metier.MetierImpl.getCompte(Long) --------------------------</message>
+</record>
+<record>
+  <date>2026-11-13T15:28:55.859913200Z</date>
+  <millis>1794583735859</millis>
+  <nanos>913200</nanos>
+  <sequence>22</sequence>
+  <logger>aspects.LoggingAspect</logger>
+  <level>INFO</level>
+  <class>aspects.LoggingAspect</class>
+  <method>apres</method>
+  <thread>1</thread>
+  <message>Durre dexecution : 0</message>
+</record>
+<record>
+  <date>2026-11-13T15:28:55.860908Z</date>
+  <millis>1794583735860</millis>
+  <nanos>908000</nanos>
+  <sequence>23</sequence>
+  <logger>aspects.LoggingAspect</logger>
+  <level>INFO</level>
+  <class>aspects.LoggingAspect</class>
+  <method>apres</method>
+  <thread>1</thread>
+  <message>-----------------------------------</message>
+</record>
+</log>
