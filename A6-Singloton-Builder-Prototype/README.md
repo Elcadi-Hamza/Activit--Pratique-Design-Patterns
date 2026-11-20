@@ -137,8 +137,21 @@ public static AccountBuilder builder() {
 ```
 puis dans `BankAccountRepositoryImpl`
 ```java
-
+public class Main {
+    public static void main(String[] args){
+        BankAccount bankAccount = BankAccount.builder()
+                .accountId(1L)
+                .currency("MAD")
+                .status(AccountStatus.CREATED)
+                .type(AccountType.SAVING_ACCOUNT)
+                .balance(74000)
+                .build();
+        System.out.println(bankAccount);
+    }
+}
 ```
+![resultas](../screenShots/A6/1.png)
+
 
 
 
