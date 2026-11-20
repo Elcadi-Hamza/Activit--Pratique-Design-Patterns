@@ -12,4 +12,5 @@ Fillier : GLSID-3
 ### [4. Activité Pratique N°3 - Adapter ](A3-Adapter/README.md)
 ### [5. Activité Pratique N°4 - TD 1 ](A4-TD1/README.md)
 ### [6. Activité Pratique N°5 - Activité Pratique AOP ](A5-AOP/README.md)
+### [7. Activité Pratique N°7- Patterns Création : Singleton, Builder, Prototype ](A6-Singloton-Builder-Prototype/README.md)
 
