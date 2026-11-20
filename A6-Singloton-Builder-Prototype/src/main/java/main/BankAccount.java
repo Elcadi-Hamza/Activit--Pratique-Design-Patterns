@@ -69,10 +69,6 @@ public class BankAccount {
                 '}';
     }
 
-    public static AccountBuilder builder() {
-        return new AccountBuilder();
-    }
-
     public static class AccountBuilder {
         private BankAccount bankAccount = new BankAccount();
 

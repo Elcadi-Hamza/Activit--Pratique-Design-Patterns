@@ -150,8 +150,45 @@ public class Main {
     }
 }
 ```
-![resultas](../screenShots/A6/1.png)
+![resultas](../screenShots/A6/1.png) \
+on peut cositimiser le builder
+```java
+public AccountBuilder status(AccountStatus status){
+    if(bankAccount.getType().equals(AccountType.CURRENT_ACCOUNT)){
+        bankAccount.status = status;
+    }
+    else bankAccount.status=AccountStatus.ACTIVATED;
+    return this;
+}
+```
+class diagramme : \
 
+on creer la class `main.Director`, dans director on peut construire plusieur builder
+
+```java
+public class Director {
+    public static BankAccount.AccountBuilder accountBuilder() {
+        return new BankAccount.AccountBuilder();
+    }
+}
+```
+et on suprimmer la dans `BankAccount` et on le teste 
+```java
+BankAccount bankAccount = Director.accountBuilder()
+        .accountId(1L)
+        .currency("MAD")
+        .status(AccountStatus.CREATED)
+        .type(AccountType.SAVING_ACCOUNT)
+        .balance(75000)
+        .build();
+System.out.println(bankAccount);
+```
+![output](../screenShots/A6/3.png) \
+
+On creer les builders dans les lcass director
+
+
+![diagramme](../screenShots/A6/2.png) \
 
 
 
