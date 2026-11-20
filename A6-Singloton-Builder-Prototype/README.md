@@ -32,10 +32,113 @@ et ces enums, et on generate getters et setters et les constructeurs et `toStrin
 public interface BankAccountRepository {
     BankAccount save(BankAccount bankAccount);
     List<BankAccount> findAll();
-    Optional<BankAccount> findById(long id);
-    List<BankAccount> searchAccounts(Predicate<BankAccount>); // if we don know what parameter
+    Optional<BankAccount> findById(Long id);
+    List<BankAccount> searchAccounts(Predicate<BankAccount> predicate); // if we don know what parameter
     BankAccount update(BankAccount bankAccount);
-    void deleteByid(long id);
+    void deleteByid(Long id);
 }
 ```
+- 'repository.AccountRepositoryImpl'
+```java
+public class BankAccountRepositoryImpl implements BankAccountRepository {
+    private Map<Long, BankAccount> bankAccountMap = new HashMap<>();
+    private long accountsCount=0;
+    @Override
+    public BankAccount save(BankAccount bankAccount) {
+        long accountId = ++accountsCount;
+        bankAccount.setAccountId(accountId);
+        return bankAccount;
+    }
+
+    @Override
+    public List<BankAccount> findAll() {
+        return bankAccountMap.values().stream().toList();
+    }
+
+    @Override
+    public Optional<BankAccount> findById(Long id) {
+        BankAccount account = bankAccountMap.get(id);
+        if(account == null){
+            return Optional.empty();
+        }
+        else {
+            return Optional.of(account);
+        }
+    }
+
+    @Override
+    public List<BankAccount> searchAccounts(Predicate<BankAccount> predicate) {
+
+        return bankAccountMap.values().stream().filter(predicate).collect(Collectors.toList());
+    }
+
+    @Override
+    public BankAccount update(BankAccount bankAccount) {
+        bankAccountMap.put(bankAccount.getAccountId(), bankAccount);
+        return bankAccount;
+    }
+
+    @Override
+    public void deleteByid(Long id) {
+        bankAccountMap.remove(id);
+
+    }
+   
+}
+```
+on ajoutons la methode `populateData`
+```java
+
+public void populateData() {
+    for(int i = 0 ; i < 10 ; i++){
+        BankAccount bankAccount = new BankAccount();
+    }
+}
+```
+il ya trois facons de remplir `bankAccount`
+- 1 . constructeur avec parametre
+- 2 . setters
+- 3 . on utilisant le pattern builder
+- on creer une class intern dans `BankAccount`
+```java
+public static class AccountBuilder {
+    private BankAccount bankAccount = new BankAccount();
+
+    public AccountBuilder accountId(Long id){
+        bankAccount.accountId = id;
+        return this;
+    }
+    public AccountBuilder balance(double balance){
+        bankAccount.balance = balance;
+        return this;
+    }
+    public AccountBuilder currency(String currency){
+        bankAccount.currency = currency;
+        return this;
+    }
+    public AccountBuilder type(AccountType type){
+        bankAccount.type = type;
+        return this;
+    }
+    public AccountBuilder status(AccountStatus status){
+        bankAccount.status = status;
+        return this;
+    }
+    public BankAccount build() {
+        return this.bankAccount;
+    }
+}
+```
+pour utiliser, dans la class `BankAccount`
+```java
+public static AccountBuilder builder() {
+    return new AccountBuilder();
+}
+```
+puis dans `BankAccountRepositoryImpl`
+```java
+
+```
+
+
 

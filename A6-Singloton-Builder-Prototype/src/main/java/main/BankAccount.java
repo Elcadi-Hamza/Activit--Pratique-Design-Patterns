@@ -1,13 +1,13 @@
 package main;
 
 public class BankAccount {
-    private long accountId;
+    private Long accountId;
     private double balance;
     private String currency;
     private AccountType type;
     private AccountStatus status;
 
-    public long getAccountId() {
+    public Long getAccountId() {
         return accountId;
     }
 
@@ -27,7 +27,7 @@ public class BankAccount {
         return status;
     }
 
-    public void setAccountId(long accountId) {
+    public void setAccountId(Long accountId) {
         this.accountId = accountId;
     }
 
@@ -47,7 +47,7 @@ public class BankAccount {
         this.status = status;
     }
 
-    public BankAccount(long accountId, double balance, String currency, AccountType type, AccountStatus status) {
+    public BankAccount(Long accountId, double balance, String currency, AccountType type, AccountStatus status) {
         this.accountId = accountId;
         this.balance = balance;
         this.currency = currency;
@@ -67,5 +67,37 @@ public class BankAccount {
                 ", type=" + type +
                 ", status=" + status +
                 '}';
+    }
+
+    public static AccountBuilder builder() {
+        return new AccountBuilder();
+    }
+
+    public static class AccountBuilder {
+        private BankAccount bankAccount = new BankAccount();
+
+        public AccountBuilder accountId(Long id){
+            bankAccount.accountId = id;
+            return this;
+        }
+        public AccountBuilder balance(double balance){
+            bankAccount.balance = balance;
+            return this;
+        }
+        public AccountBuilder currency(String currency){
+            bankAccount.currency = currency;
+            return this;
+        }
+        public AccountBuilder type(AccountType type){
+            bankAccount.type = type;
+            return this;
+        }
+        public AccountBuilder status(AccountStatus status){
+            bankAccount.status = status;
+            return this;
+        }
+        public BankAccount build() {
+            return this.bankAccount;
+        }
     }
 }
