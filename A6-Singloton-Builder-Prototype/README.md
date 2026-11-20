@@ -214,6 +214,18 @@ bankAccounts.forEach(System.out::println);
 ![output](../screenShots/A6/4.png) \
 
 
+on ajoutons la dependance :
+```xml
+<dependencies>
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.14.1</version>
+    </dependency>
+</dependencies>
+```
+et on creer la class `Util`
 
+```java
 
-
+```
