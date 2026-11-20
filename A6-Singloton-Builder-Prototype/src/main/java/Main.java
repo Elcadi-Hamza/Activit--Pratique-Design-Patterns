@@ -6,6 +6,7 @@ import repository.BankAccountRepositoryImpl;
 import util.JsonSerializer;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 public class Main {
     public static void main(String[] args){
@@ -29,5 +30,19 @@ public class Main {
         repository.populateData();
         List<BankAccount> bankAccounts = repository.findAll();
         bankAccounts.stream().map(acc->bankAccountJsonSerializer.toJson(acc)).forEach(System.out::println);
+        System.out.println("############################################");
+        BankAccount account = repository.findById(1L).orElse(null);
+        if(account != null){
+            System.out.println(bankAccountJsonSerializer.toJson(account));
+        }
+        System.out.println("Recherche ############################################");
+        List<BankAccount> bankAccounts2 = repository.searchAccounts(new Predicate<BankAccount>() {
+            @Override
+            public boolean test(BankAccount bankAccount) {
+                return bankAccount.getType().equals(AccountType.CURRENT_ACCOUNT);
+            }
+        });
+        bankAccounts2.stream().map(acc->bankAccountJsonSerializer.toJson(acc)).forEach(System.out::println);
+
     }
 }
