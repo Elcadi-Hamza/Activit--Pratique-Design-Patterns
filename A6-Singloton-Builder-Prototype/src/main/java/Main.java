@@ -3,6 +3,7 @@ import main.AccountType;
 import main.BankAccount;
 import main.BankDirector;
 import repository.BankAccountRepositoryImpl;
+import util.JsonSerializer;
 
 import java.util.List;
 
@@ -23,9 +24,10 @@ public class Main {
 //                .balance(75000)
 //                .build();
 //        System.out.println(bankAccount);
+        JsonSerializer<BankAccount> bankAccountJsonSerializer = new JsonSerializer<>();
         BankAccountRepositoryImpl repository = new BankAccountRepositoryImpl();
         repository.populateData();
         List<BankAccount> bankAccounts = repository.findAll();
-        bankAccounts.forEach(System.out::println);
+        bankAccounts.stream().map(acc->bankAccountJsonSerializer.toJson(acc)).forEach(System.out::println);
     }
 }

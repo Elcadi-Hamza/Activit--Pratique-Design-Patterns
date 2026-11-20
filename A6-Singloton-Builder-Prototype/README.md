@@ -224,8 +224,29 @@ on ajoutons la dependance :
     </dependency>
 </dependencies>
 ```
-et on creer la class `Util`
+et on creer la class `util.JsonSerializer`
 
 ```java
 
+public class JsonSerializer<T> {
+    public String toJson(T dataObject){
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            String json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(dataObject);
+            return json;
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException();
+        }
+    }
+
+}
 ```
+on utilise, dans le main
+```java
+JsonSerializer<BankAccount> bankAccountJsonSerializer = new JsonSerializer<>();
+BankAccountRepositoryImpl repository = new BankAccountRepositoryImpl();
+repository.populateData();
+List<BankAccount> bankAccounts = repository.findAll();
+bankAccounts.stream().map(acc->bankAccountJsonSerializer.toJson(acc)).forEach(System.out::println);
+```
+![output](../screenShots/A6/5.png) \
