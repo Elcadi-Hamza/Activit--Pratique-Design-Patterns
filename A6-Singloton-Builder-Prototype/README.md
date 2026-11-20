@@ -6,15 +6,7 @@ Référence : https://www.youtube.com/watch?v=c46mTB9o2qo
 
 ---
 
-## 1 - Diagramme du pattern Adapter
-
-On a commencé par créer les classes nécessaires pour implémenter le pattern Adapter.
-
-![Diagramme du pattern Adapter](../screenShots/A3/0.png)
-
----
-
-## Implémentation du diagramme de classes
+## Pattern BUILDER
 On crée la classe `model.BankAccount` :
 ```java
 public class BankAccount {
@@ -273,3 +265,109 @@ bankAccounts2.stream().map(acc->bankAccountJsonSerializer.toJson(acc)).forEach(S
 ```
 ![output](../screenShots/A6/7.png) \
 
+## Pattern Singleton
+Dans la class `BankAccountRepositoryImpl`
+```java
+private static final BankAccountRepositoryImpl accountRepository;
+// resp: private static BankAccountRepositoryImpl accountRepository;  
+
+static {
+    System.out.println("Instanciation de singloton");
+    accountRepository = new BankAccountRepositoryImpl();
+}
+// PRIVATE CONTRUCTOR
+private BankAccountRepositoryImpl (){
+    //this means : that we cant initiat this class except inside the class it self
+}
+//THIS METHODE THAT GONNA DO THAT NOW
+public static BankAccountRepositoryImpl getInstance(){
+    return accountRepository;
+}
+// resp
+/*
+        public static BankAccountRepositoryImpl getInstance(){
+            if(accountRespository == null){
+                accountRepository = new BankAccountRepositoryImpl();
+            }
+            return accountRepository;
+        }
+ */
+```
+
+on le tester dans `Main`
+```java
+//instead of this 
+BankAccountRepositoryImpl repository = new BankAccountRepositoryImpl();
+
+// you do this
+BankAccountRepositoryImpl repository = BankAccountRepositoryImpl.getInstance();
+
+// and if we instance more then onece
+BankAccountRepositoryImpl repository1 = BankAccountRepositoryImpl.getInstance();
+BankAccountRepositoryImpl repository2 = BankAccountRepositoryImpl.getInstance();
+BankAccountRepositoryImpl repository3 = BankAccountRepositoryImpl.getInstance();
+// this is one instance, singloton garantee that you have one object charged in the memory
+```
+
+![diagramme](../screenShots/A6/8.png) \
+
+### le probleme de multithread
+on ajoutons ca dans `BankAccountRepositoryImpl`
+```java
+public void populateData() {
+    for(int i = 0 ; i < 10 ; i++){
+        BankAccount bankAccount = BankDirector.accountBuilder()
+                .balance(18000+Math.random()*9000)
+                .type(Math.random()>0.5? AccountType.SAVING_ACCOUNT : AccountType.CURRENT_ACCOUNT)
+                .status(Math.random() >0.5? AccountStatus.CREATED : AccountStatus.ACTIVATED)
+                .currency(Math.random()>0.5?"MAD":"USD")
+                .build();
+        save(bankAccount);
+    }
+    System.out.println("########################################");
+    System.out.println(Thread.currentThread().getName());
+    System.out.println("Account Count = "+accountsCount);
+    System.out.println("Size : "+bankAccountMap.values().size());
+}
+```
+et dans le `Main`
+```java
+JsonSerializer<BankAccount> bankAccountJsonSerializer = new JsonSerializer<>();
+BankAccountRepositoryImpl repository = BankAccountRepositoryImpl.getInstance();
+for(int i = 0 ; i < 10 ; i++){
+    new Thread(()-> {
+        repository.populateData();
+    }).start();
+}
+List<BankAccount> bankAccounts = repository.findAll();
+bankAccounts.stream().map(acc->bankAccountJsonSerializer.toJson(acc)).forEach(System.out::println);
+```
+![output](../screenShots/A6/9.png) \
+![output](../screenShots/A6/10.png) \
+![output](../screenShots/A6/11.png) \
+to make it work you could (note : java alredy fixed that)
+```java
+// instead of this
+public BankAccount save(BankAccount bankAccount) {
+    Long accountId = ++accountsCount;
+    bankAccount.setAccountId(accountId);
+    bankAccountMap.put(accountId, bankAccount);
+    return bankAccount;
+}
+// you have this
+public BankAccount save(BankAccount bankAccount) {
+    Long accountId;
+    synchronized (this){
+        accountId = ++accountsCount;
+    }
+    bankAccount.setAccountId(accountId);
+    bankAccountMap.put(accountId, bankAccount);
+    return bankAccount;
+}
+```
+## Pattern PROTOTYPE
+prototype => clonner un objet (creer une instance identique)
+on creer la class `Test2`
+```java
+
+```

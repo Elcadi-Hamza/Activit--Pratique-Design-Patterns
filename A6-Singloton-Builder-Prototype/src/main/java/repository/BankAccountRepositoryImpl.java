@@ -13,6 +13,17 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class BankAccountRepositoryImpl implements BankAccountRepository {
+    private static final BankAccountRepositoryImpl accountRepository;
+
+    static {
+        System.out.println("Instanciation de singloton");
+        accountRepository = new BankAccountRepositoryImpl();
+    }
+
+    private BankAccountRepositoryImpl (){
+        //this means : that we cant initiat this class except inside the class it self
+    }
+
     private Map<Long, BankAccount> bankAccountMap = new HashMap<>();
     private long accountsCount=0;
     @Override
@@ -67,5 +78,13 @@ public class BankAccountRepositoryImpl implements BankAccountRepository {
                     .build();
             save(bankAccount);
         }
+        System.out.println("########################################");
+        System.out.println(Thread.currentThread().getName());
+        System.out.println("Account Count = "+accountsCount);
+        System.out.println("Size : "+bankAccountMap.values().size());
+    }
+
+    public static BankAccountRepositoryImpl getInstance(){
+        return accountRepository;
     }
 }
