@@ -27,5 +27,15 @@ public class BankAccount {
 }
 ```
 et ces enums, et on generate getters et setters et les constructeurs et `toString`.
-
+- interface `repository.AccountRepository`
+```java
+public interface BankAccountRepository {
+    BankAccount save(BankAccount bankAccount);
+    List<BankAccount> findAll();
+    Optional<BankAccount> findById(long id);
+    List<BankAccount> searchAccounts(Predicate<BankAccount>); // if we don know what parameter
+    BankAccount update(BankAccount bankAccount);
+    void deleteByid(long id);
+}
+```
 
