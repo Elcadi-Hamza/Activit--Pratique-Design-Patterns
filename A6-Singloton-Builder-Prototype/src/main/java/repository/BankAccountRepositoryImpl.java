@@ -1,6 +1,9 @@
 package repository;
 
+import main.AccountStatus;
+import main.AccountType;
 import main.BankAccount;
+import main.BankDirector;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,8 +17,9 @@ public class BankAccountRepositoryImpl implements BankAccountRepository {
     private long accountsCount=0;
     @Override
     public BankAccount save(BankAccount bankAccount) {
-        long accountId = ++accountsCount;
+        Long accountId = ++accountsCount;
         bankAccount.setAccountId(accountId);
+        bankAccountMap.put(accountId, bankAccount);
         return bankAccount;
     }
 
@@ -55,7 +59,13 @@ public class BankAccountRepositoryImpl implements BankAccountRepository {
 
     public void populateData() {
         for(int i = 0 ; i < 10 ; i++){
-            BankAccount bankAccount = new BankAccount();
+            BankAccount bankAccount = BankDirector.accountBuilder()
+                    .balance(18000+Math.random()*9000)
+                    .type(Math.random()>0.5? AccountType.SAVING_ACCOUNT : AccountType.CURRENT_ACCOUNT)
+                    .status(Math.random() >0.5? AccountStatus.CREATED : AccountStatus.ACTIVATED)
+                    .currency(Math.random()>0.5?"MAD":"USD")
+                    .build();
+            save(bankAccount);
         }
     }
 }

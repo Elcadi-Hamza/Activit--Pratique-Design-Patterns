@@ -45,8 +45,9 @@ public class BankAccountRepositoryImpl implements BankAccountRepository {
     private long accountsCount=0;
     @Override
     public BankAccount save(BankAccount bankAccount) {
-        long accountId = ++accountsCount;
+        Long accountId = ++accountsCount;
         bankAccount.setAccountId(accountId);
+        bankAccountMap.put(accountId, bankAccount);
         return bankAccount;
     }
 
@@ -185,10 +186,34 @@ System.out.println(bankAccount);
 ```
 ![output](../screenShots/A6/3.png) \
 
-On creer les builders dans les lcass director
-
+On creer les builders dans les lcass director \
 
 ![diagramme](../screenShots/A6/2.png) \
+
+on changer `Director` to `BankDirector` car on va construire d'autre builders \ 
+dans `BankAccountRepositoryImpl`
+```java
+public void populateData() {
+    for(int i = 0 ; i < 10 ; i++){
+        BankAccount bankAccount = BankDirector.accountBuilder()
+                .balance(18000+Math.random()*9000)
+                .type(Math.random()>0.5? AccountType.SAVING_ACCOUNT : AccountType.CURRENT_ACCOUNT)
+                .currency(Math.random()>0.5?"MAD":"USD")
+                .build();
+        save(bankAccount);
+    }
+}
+```
+on le tester
+```java
+BankAccountRepositoryImpl repository = new BankAccountRepositoryImpl();
+repository.populateData();
+List<BankAccount> bankAccounts = repository.findAll();
+bankAccounts.forEach(System.out::println);
+```
+![output](../screenShots/A6/4.png) \
+
+
 
 
 
