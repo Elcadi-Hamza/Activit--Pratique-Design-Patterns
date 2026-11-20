@@ -1,11 +1,12 @@
 package main;
 
-public class BankAccount {
+public class BankAccount implements Cloneable {
     private Long accountId;
     private double balance;
     private String currency;
     private AccountType type;
     private AccountStatus status;
+    private Customer customer;
 
     public Long getAccountId() {
         return accountId;
@@ -25,6 +26,10 @@ public class BankAccount {
 
     public AccountStatus getStatus() {
         return status;
+    }
+
+    public Customer getCustomer() {
+        return customer;
     }
 
     public void setAccountId(Long accountId) {
@@ -47,12 +52,17 @@ public class BankAccount {
         this.status = status;
     }
 
-    public BankAccount(Long accountId, double balance, String currency, AccountType type, AccountStatus status) {
-        this.accountId = accountId;
-        this.balance = balance;
-        this.currency = currency;
-        this.type = type;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public BankAccount(Customer customer, AccountStatus status, AccountType type, String currency, double balance, Long accountId) {
+        this.customer = customer;
         this.status = status;
+        this.type = type;
+        this.currency = currency;
+        this.balance = balance;
+        this.accountId = accountId;
     }
 
     public BankAccount() {
@@ -66,6 +76,7 @@ public class BankAccount {
                 ", currency='" + currency + '\'' +
                 ", type=" + type +
                 ", status=" + status +
+                ", customer=" + customer +
                 '}';
     }
 
@@ -95,5 +106,12 @@ public class BankAccount {
         public BankAccount build() {
             return this.bankAccount;
         }
+    }
+
+    @Override
+    public BankAccount clone() throws CloneNotSupportedException{
+        BankAccount bankAccount = (BankAccount) super.clone();
+        bankAccount.setCustomer(this.customer.clone());
+        return bankAccount;
     }
 }
