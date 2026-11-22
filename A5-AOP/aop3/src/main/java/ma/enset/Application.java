@@ -5,6 +5,7 @@ import ma.enset.service.SecurityContext;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.logging.Logger;
 
@@ -14,7 +15,7 @@ public class Application {
         try{
             //        ApplicationContext applicationContext = new AnnotationConfigApplicationContext("ma.enset");
             SecurityContext.authenticate("root","1234", new String[]{"USER"});
-            ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Application.class);
+            ApplicationContext applicationContext = new AnnotationConfigApplicationContext(MyConfig.class);
             Imetier metier = applicationContext.getBean(Imetier.class);
             System.out.println("************************************");
             System.out.println(metier.getClass().getName());
@@ -26,4 +27,9 @@ public class Application {
         }
 
     }
+}
+@Configuration
+@ComponentScan(value = {"ma.enset"})
+class MyConfig {
+
 }

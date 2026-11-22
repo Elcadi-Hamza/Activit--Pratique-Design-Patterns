@@ -684,3 +684,30 @@ SecurityContext.authenticate("root","1234", new String[]{"USER","ADMIN"});
 SecurityContext.authenticate("root","1234", new String[]{"USER"});
 ```
 ![output](../screenShots/A5/25.png) \
+l'ajoute de config dans Application
+```java
+@ComponentScan(value = {"ma.enset.service","ma.enset.aspects"})
+public class Application {
+    public static void main(String[] args) {
+        try{
+            //        ApplicationContext applicationContext = new AnnotationConfigApplicationContext("ma.enset");
+            SecurityContext.authenticate("root","1234", new String[]{"USER"});
+            ApplicationContext applicationContext = new AnnotationConfigApplicationContext(MyConfig.class);
+            Imetier metier = applicationContext.getBean(Imetier.class);
+            System.out.println("************************************");
+            System.out.println(metier.getClass().getName());
+            System.out.println("************************************");
+            metier.process();
+            System.out.println(metier.compute());
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+    }
+}
+@Configuration
+@ComponentScan(value = {"ma.enset"})
+class MyConfig {
+
+}
+```
