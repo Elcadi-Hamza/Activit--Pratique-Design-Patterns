@@ -580,4 +580,70 @@ public @interface Log {
 ```
 `@Retention` : est ce que l'annotation s'execute au compilation ou l'execution.
 `@Target` : est ce que l'annotation pour les class ou les methodes. \
-![output](../screenShots/A5/21.png) \
+![output](../screenShots/A5/19.png) \
+
+on creer l'annotation `SecuredByAspect` qui utilise les roles. \
+![Creation de l'annotation](../screenShots/A5/21.png) \
+on joutons l'annotation dans `ImetierImpl`
+```java
+@Override
+@Log
+@SecuredByAspect(roles={"USER","ADMIN"})
+public void process() {
+    System.out.println("Business process ......");
+}
+
+@Override
+@Log
+@SecuredByAspect(roles={"ADMIN"})
+public double compute() {
+    double data = 78;
+    System.out.println("Business computing and return ......");
+    return data;
+}
+```
+`SecuredByAspect`
+```java
+public @interface SecuredByAspect {
+    String[] roles();
+}
+```
+on creer la class `service.SecurityContext`
+```java
+public class SecurityContext {
+    private static String username="";
+    private static String passowrd="";
+    private static String[] roles={};
+    public static void authenticate (String u, String p, String[] r){
+        if(u.equals("root")&&p.equals("1234")){
+            username=u;
+            passowrd=p;
+            roles=r;
+        } else {
+            throw new RuntimeException("Access denied");
+        }
+    }
+    public static boolean hasRole(String r){
+        for(String role : roles){
+            if(role.equals(r)){
+                return true;
+            }
+        }
+        return false;
+    }
+}
+```
+
+et dans `Application`
+```java
+SecurityContext.authenticate("rot","1234", new String[]{"USER","ADMIN"});
+ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Application.class);
+Imetier metier = applicationContext.getBean(Imetier.class);
+...
+```
+![output](../screenShots/A5/22.png) \
+```java
+SecurityContext.authenticate("root","1234", new String[]{"USER","ADMIN"});
+...
+```
+![output](../screenShots/A5/23.png) \

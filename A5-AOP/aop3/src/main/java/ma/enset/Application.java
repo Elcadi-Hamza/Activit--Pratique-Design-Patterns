@@ -1,6 +1,7 @@
 package ma.enset;
 
 import ma.enset.service.Imetier;
+import ma.enset.service.SecurityContext;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
@@ -11,6 +12,7 @@ import java.util.logging.Logger;
 public class Application {
     public static void main(String[] args) {
 //        ApplicationContext applicationContext = new AnnotationConfigApplicationContext("ma.enset");
+        SecurityContext.authenticate("root","1234", new String[]{"USER","ADMIN"});
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Application.class);
         Imetier metier = applicationContext.getBean(Imetier.class);
         System.out.println("************************************");
