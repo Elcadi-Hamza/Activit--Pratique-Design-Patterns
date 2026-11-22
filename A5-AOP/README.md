@@ -412,6 +412,79 @@ Résultat :
 
 ---
 
-# Conclusion
+# 3. troisieme référence : Spring AOP
+## 3.1 creation de projet
+![creation de projet](../screenShots/A5/15.png)
+avec les dependances: 
+```xml
+<dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>5.3.19</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>5.3.19</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>5.3.19</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>5.3.19</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aspects</artifactId>
+            <version>5.3.19</version>
+        </dependency>
+</dependencies>
+```
+## 3.2 creation de la couche metier :
+on creer les class 
+- `Imetier`
+```java
+public interface Imetier {
+    public void process();
+    double compute();
+}
+```
+- `ImetierImpl`
+```java
+@Service
+public class ImetierImpl implements Imetier {
+    @Override
+    public void process() {
+        System.out.println("Business process ......");
+    }
 
-Cette activité montre l'intérêt de l'AOP : les préoccupations transversales (journalisation, mesure de performance, validation, sécurité) sont séparées du code métier. Les classes `Compte`, `IMetier`, `MetierImpl` et `Application` n'ont pas été modifiées, alors que le comportement de l'application a été enrichi et corrigé uniquement grâce aux aspects.
+    @Override
+    public double compute() {
+        double data = 78;
+        System.out.println("Business computing and return ......");
+        return 0;
+    }
+}
+```
+## 3.3 Creation de la class Application
+```java
+@ComponentScan(basePackages = {"ma.enset.service"})
+public class Application {
+    public static void main(String[] args) {
+//        ApplicationContext applicationContext = new AnnotationConfigApplicationContext("ma.enset");
+        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Application.class);
+        Imetier metier = applicationContext.getBean(Imetier.class);
+        metier.process();
+        System.out.println(metier.compute());
+    }
+}
+```
+
+on le tester \
+
+![creation de projet](../screenShots/A5/15.png)
