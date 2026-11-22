@@ -529,3 +529,22 @@ public class LogAspect {
 }
 ```
 ![output](../screenShots/A5/18.png) \
+
+On utilisant `Logger`
+```java
+public class LogAspect {
+    //    @Before("execution(* ma.enset.service.*.*(..))")
+    Logger logger = Logger.getLogger(LogAspect.class.getName());
+    @Around("execution(* ma.enset.service.*.*(..))")
+    public Object log(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+        long t1 = System.currentTimeMillis();
+        logger.info("From Logging Aspects ... Before " + proceedingJoinPoint.getSignature());
+        Object result = proceedingJoinPoint.proceed();
+        logger.info("From Logging Aspects ... After " + proceedingJoinPoint.getSignature());
+        logger.info("Duration : " + (System.currentTimeMillis() - t1));
+        return result;
+
+    }
+}
+```
+![output](../screenShots/A5/19.png) \

@@ -5,6 +5,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
+import java.util.logging.Logger;
+
 @ComponentScan(value = {"ma.enset.service","ma.enset.aspects"})
 public class Application {
     public static void main(String[] args) {
