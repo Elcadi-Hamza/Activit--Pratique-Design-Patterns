@@ -412,10 +412,12 @@ Résultat :
 
 ---
 
-# 3. troisieme référence : Spring AOP
-## 3.1 creation de projet
-![creation de projet](../screenShots/A5/15.png)
-avec les dependances: 
+---
+
+# 3. Troisième référence : Spring AOP
+## 3.1 Création du projet
+![création du projet](../screenShots/A5/15.png)
+Avec les dépendances suivantes :
 ```xml
 <dependencies>
         <dependency>
@@ -445,8 +447,8 @@ avec les dependances:
         </dependency>
 </dependencies>
 ```
-## 3.2 creation de la couche metier :
-on creer les class 
+## 3.2 Création de la couche métier
+Nous créons les classes suivantes :
 - `Imetier`
 ```java
 public interface Imetier {
@@ -471,7 +473,7 @@ public class ImetierImpl implements Imetier {
     }
 }
 ```
-## 3.3 Creation de la class Application
+## 3.3 Création de la classe `Application`
 ```java
 @ComponentScan(basePackages = {"ma.enset.service"})
 public class Application {
@@ -488,11 +490,11 @@ public class Application {
 }
 ```
 
-on le tester \
+Nous testons l’application :
 
-![output](../screenShots/A5/16.png)
+![résultat](../screenShots/A5/16.png)
 
-## 3.4 creation de LogAspect
+## 3.4 Création de `LogAspect`
 ```java
 @Component
 @Aspect
@@ -504,12 +506,12 @@ public class LogAspect {
     }
 }
 ```
-et on change `Application`
+Ensuite, nous modifions la classe `Application` :
 ```java
 @ComponentScan(value = {"ma.enset.service","ma.enset.aspects"})
 ```
-![output](../screenShots/A5/17.png) \
-on change `before` par `around`
+![résultat](../screenShots/A5/17.png) \
+Nous remplaçons ensuite `before` par `around` :
 ```java
 @Component
 @Aspect
@@ -528,9 +530,9 @@ public class LogAspect {
     }
 }
 ```
-![output](../screenShots/A5/18.png) \
+![résultat](../screenShots/A5/18.png) \
 
-On utilisant `Logger`
+Nous utilisons ensuite `Logger` :
 ```java
 public class LogAspect {
     //    @Before("execution(* ma.enset.service.*.*(..))")
@@ -547,10 +549,10 @@ public class LogAspect {
     }
 }
 ```
-![output](../screenShots/A5/19.png) \
+![résultat](../screenShots/A5/19.png) \
 
-## 3.5 creation et utilisation des annotations
-on ajoutons une annotation `@Log` dans la class `ImetierImpl`
+## 3.5 Création et utilisation des annotations
+Nous ajoutons l’annotation `@Log` dans la classe `ImetierImpl` :
 ```java
 @Override
 @Log
@@ -566,25 +568,25 @@ public double compute() {
     return data;
 }
 ```
-![Creation de l'annotation](../screenShots/A5/20.png) \
-dans `LogAspect`
+![Création de l’annotation](../screenShots/A5/20.png) \
+Dans `LogAspect`, nous utilisons le pointcut suivant :
 ```java
 @Around("@annotation(ma.enset.aspects.Log)")
 ```
-et annotation de `Log`
+Nous définissons ensuite l’annotation `Log` :
 ```java
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface Log {
 }
 ```
-`@Retention` : est ce que l'annotation s'execute au compilation ou l'execution.
-`@Target` : est ce que l'annotation pour les class ou les methodes. \
-![output](../screenShots/A5/19.png) \
+`@Retention` : indique si l’annotation est conservée à la compilation ou à l’exécution.
+`@Target` : indique les éléments sur lesquels l’annotation peut être utilisée, par exemple les classes ou les méthodes. \
+![résultat](../screenShots/A5/19.png) \
 
-on creer l'annotation `SecuredByAspect` qui utilise les roles. \
-![Creation de l'annotation](../screenShots/A5/21.png) \
-on joutons l'annotation dans `ImetierImpl`
+Nous créons l’annotation `SecuredByAspect`, qui utilise les rôles : \
+![Création de l’annotation](../screenShots/A5/21.png) \
+Nous ajoutons cette annotation dans `ImetierImpl` :
 ```java
 @Override
 @Log
@@ -610,16 +612,16 @@ public @interface SecuredByAspect {
     String[] roles();
 }
 ```
-on creer la class `service.SecurityContext`
+Nous créons la classe `service.SecurityContext` :
 ```java
 public class SecurityContext {
     private static String username="";
-    private static String passowrd="";
+    private static String password="";
     private static String[] roles={};
     public static void authenticate (String u, String p, String[] r){
         if(u.equals("root")&&p.equals("1234")){
             username=u;
-            passowrd=p;
+            password=p;
             roles=r;
         } else {
             throw new RuntimeException("Access denied");
@@ -636,21 +638,21 @@ public class SecurityContext {
 }
 ```
 
-et dans `Application`
+Puis, dans `Application`, nous effectuons l’authentification :
 ```java
-SecurityContext.authenticate("rot","1234", new String[]{"USER","ADMIN"});
+SecurityContext.authenticate("root","1234", new String[]{"USER","ADMIN"});
 ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Application.class);
 Imetier metier = applicationContext.getBean(Imetier.class);
 ...
 ```
-![output](../screenShots/A5/22.png) \
+![résultat](../screenShots/A5/22.png) \
 ```java
 SecurityContext.authenticate("root","1234", new String[]{"USER","ADMIN"});
 ...
 ```
-![output](../screenShots/A5/23.png) \
+![résultat](../screenShots/A5/23.png) \
 
-on creeer la class `AutorisationAspect`
+Nous créons la classe `AutorisationAspect` :
 ```java
 @Aspect
 @Component
@@ -659,14 +661,14 @@ public class AutorisationAspect {
     @Around(value = "@annotation(securedByAspect)", argNames = "pjp,securedByAspect")
     public Object secure(ProceedingJoinPoint pjp, SecuredByAspect securedByAspect) throws Throwable {
         String[] roles = securedByAspect.roles();
-        boolean authrized = false;
+        boolean authorized = false;
         for(String r : roles){
             if(SecurityContext.hasRole(r)){
-                authrized=true;
+                authorized=true;
                 break;
             }
         }
-        if(authrized==true){
+        if(authorized==true){
             Object result = pjp.proceed();
             return result;
         }
@@ -675,16 +677,16 @@ public class AutorisationAspect {
     }
 }
 ```
-on le tester 
+Nous testons ensuite l’aspect :
 ```java
 SecurityContext.authenticate("root","1234", new String[]{"USER","ADMIN"});
 ```
-![output](../screenShots/A5/24.png) \
+![résultat](../screenShots/A5/24.png) \
 ```java
 SecurityContext.authenticate("root","1234", new String[]{"USER"});
 ```
-![output](../screenShots/A5/25.png) \
-l'ajoute de config dans Application
+![résultat](../screenShots/A5/25.png) \
+Nous ajoutons la configuration dans `Application` :
 ```java
 @ComponentScan(value = {"ma.enset.service","ma.enset.aspects"})
 public class Application {
