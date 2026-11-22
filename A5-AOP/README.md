@@ -467,7 +467,7 @@ public class ImetierImpl implements Imetier {
     public double compute() {
         double data = 78;
         System.out.println("Business computing and return ......");
-        return 0;
+        return data;
     }
 }
 ```
@@ -479,6 +479,9 @@ public class Application {
 //        ApplicationContext applicationContext = new AnnotationConfigApplicationContext("ma.enset");
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Application.class);
         Imetier metier = applicationContext.getBean(Imetier.class);
+        System.out.println("************************************");
+        System.out.println(metier.getClass().getName());
+        System.out.println("************************************");
         metier.process();
         System.out.println(metier.compute());
     }
@@ -487,4 +490,42 @@ public class Application {
 
 on le tester \
 
-![creation de projet](../screenShots/A5/15.png)
+![output](../screenShots/A5/16.png)
+
+## 3.4 creation de LogAspect
+```java
+@Component
+@Aspect
+@EnableAspectJAutoProxy
+public class LogAspect {
+    @Before("execution(* ma.enset.service.*.*(..))")
+    public void log() {
+        System.out.println("From Logging Aspects ... Before");
+    }
+}
+```
+et on change `Application`
+```java
+@ComponentScan(value = {"ma.enset.service","ma.enset.aspects"})
+```
+![output](../screenShots/A5/17.png) \
+on change `before` par `around`
+```java
+@Component
+@Aspect
+@EnableAspectJAutoProxy
+public class LogAspect {
+//    @Before("execution(* ma.enset.service.*.*(..))")
+    @Around("execution(* ma.enset.service.*.*(..))")
+    public Object log(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+        long t1 = System.currentTimeMillis();
+        System.out.println("From Logging Aspects ... Before " + proceedingJoinPoint.getSignature());
+        Object result = proceedingJoinPoint.proceed();
+        System.out.println("From Logging Aspects ... After " + proceedingJoinPoint.getSignature());
+        System.out.println("Duration : " + (System.currentTimeMillis() - t1));
+        return result;
+
+    }
+}
+```
+![output](../screenShots/A5/18.png) \

@@ -13,6 +13,6 @@ public class ImetierImpl implements Imetier {
     public double compute() {
         double data = 78;
         System.out.println("Business computing and return ......");
-        return 0;
+        return data;
     }
 }
