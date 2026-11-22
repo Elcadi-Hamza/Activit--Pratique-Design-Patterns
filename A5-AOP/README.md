@@ -548,3 +548,36 @@ public class LogAspect {
 }
 ```
 ![output](../screenShots/A5/19.png) \
+
+## 3.5 creation et utilisation des annotations
+on ajoutons une annotation `@Log` dans la class `ImetierImpl`
+```java
+@Override
+@Log
+public void process() {
+    System.out.println("Business process ......");
+}
+
+@Override
+@Log
+public double compute() {
+    double data = 78;
+    System.out.println("Business computing and return ......");
+    return data;
+}
+```
+![Creation de l'annotation](../screenShots/A5/20.png) \
+dans `LogAspect`
+```java
+@Around("@annotation(ma.enset.aspects.Log)")
+```
+et annotation de `Log`
+```java
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+public @interface Log {
+}
+```
+`@Retention` : est ce que l'annotation s'execute au compilation ou l'execution.
+`@Target` : est ce que l'annotation pour les class ou les methodes. \
+![output](../screenShots/A5/21.png) \
