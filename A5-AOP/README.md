@@ -604,6 +604,8 @@ public double compute() {
 ```
 `SecuredByAspect`
 ```java
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
 public @interface SecuredByAspect {
     String[] roles();
 }
@@ -647,3 +649,38 @@ SecurityContext.authenticate("root","1234", new String[]{"USER","ADMIN"});
 ...
 ```
 ![output](../screenShots/A5/23.png) \
+
+on creeer la class `AutorisationAspect`
+```java
+@Aspect
+@Component
+@EnableAspectJAutoProxy
+public class AutorisationAspect {
+    @Around(value = "@annotation(securedByAspect)", argNames = "pjp,securedByAspect")
+    public Object secure(ProceedingJoinPoint pjp, SecuredByAspect securedByAspect) throws Throwable {
+        String[] roles = securedByAspect.roles();
+        boolean authrized = false;
+        for(String r : roles){
+            if(SecurityContext.hasRole(r)){
+                authrized=true;
+                break;
+            }
+        }
+        if(authrized==true){
+            Object result = pjp.proceed();
+            return result;
+        }
+        throw new RuntimeException("Unauthorized => 403");
+
+    }
+}
+```
+on le tester 
+```java
+SecurityContext.authenticate("root","1234", new String[]{"USER","ADMIN"});
+```
+![output](../screenShots/A5/24.png) \
+```java
+SecurityContext.authenticate("root","1234", new String[]{"USER"});
+```
+![output](../screenShots/A5/25.png) \
