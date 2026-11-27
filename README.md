@@ -13,4 +13,5 @@ Fillier : GLSID-3
 ### [5. Activité Pratique N°4 - TD 1 ](A4-TD1/README.md)
 ### [6. Activité Pratique N°5 - Activité Pratique AOP ](A5-AOP/README.md)
 ### [7. Activité Pratique N°7- Patterns Création : Singleton, Builder, Prototype ](A6-Singloton-Builder-Prototype/README.md)
+### [8. Activité Pratique N°8- Examen blanch](A7-Examen-blanch)
 
