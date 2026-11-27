@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 @Aspect
 public class LoggingAspect {
     private static final Logger logger = Logger.getLogger(LoggingAspect.class.getName());
-    @Around("execution(* exam..*.*(..)) && !within(exam.aspects..*)")
+    @Around("execution(* exam..*.*(..)) && !within(exam.aspects..*) && !within(exam.config..*)")
     public Object log(ProceedingJoinPoint jp) throws Throwable {
         String name = jp.getSignature().toShortString();
         logger.info("-> " + name);
