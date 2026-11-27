@@ -1,3 +1,5 @@
+package exam;
+
 public class Connection {
     private double weight;
     private Neuron source;

@@ -1,4 +1,6 @@
-import activation.ActivationFunction;
+package exam;
+
+import exam.activation.ActivationFunction;
 
 import java.util.ArrayList;
 import java.util.List;

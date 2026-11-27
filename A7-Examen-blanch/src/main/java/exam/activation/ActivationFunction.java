@@ -1,4 +1,4 @@
-package activation;
+package exam.activation;
 
 public interface ActivationFunction {
     double apply(double x);

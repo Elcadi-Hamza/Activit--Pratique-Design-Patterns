@@ -1,4 +1,4 @@
-package activation;
+package exam.activation;
 
 public class Identity implements ActivationFunction{
     @Override

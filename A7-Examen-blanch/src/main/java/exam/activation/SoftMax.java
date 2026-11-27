@@ -1,4 +1,4 @@
-package activation;
+package exam.activation;
 
 public class SoftMax implements ActivationFunction{
 
