@@ -15,4 +15,12 @@ public class Neuron {
     public List<Connection> getConnections(){
         return connections;
     }
+
+    public double weightedSum(double[] x) {
+        double s = bias;
+        for (int i = 0; i < connections.size(); i++) {
+            s += x[i] * connections.get(i).getWeight();
+        }
+        return s;
+    }
 }
