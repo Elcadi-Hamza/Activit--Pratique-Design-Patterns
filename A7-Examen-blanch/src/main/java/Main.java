@@ -1,4 +1,5 @@
 import exam.NeuralNetwork;
+import exam.NeuralNetworkBuilder;
 import exam.activation.*;
 import exam.aspects.SecurityAspect;
 import exam.config.AppConfig;
@@ -13,10 +14,15 @@ public class Main {
         AnnotationConfigApplicationContext ctx =
                 new AnnotationConfigApplicationContext(AppConfig.class);
 
-        NeuralNetwork nn = ctx.getBean(NeuralNetwork.class);       // proxy Spring
+//        NeuralNetwork nn = ctx.getBean(NeuralNetwork.class);       // proxy Spring
         ObserverImpl observer = ctx.getBean(ObserverImpl.class);   // proxy Spring
 
         HiddenLayer hidden = new HiddenLayer(5, new Sigmoid());
+        NeuralNetwork nn = new NeuralNetworkBuilder(ctx.getBean(NeuralNetwork.class))
+                .inputLayer(3)
+                .hiddenLayer(new NormalizationDecorator(hidden))   // Decorator
+                .outputLayer(2, new SoftMax())
+                .build();
         nn.addLayer(new InputLayer(3));
         nn.addLayer(new NormalizationDecorator(hidden));   // Decorator
         nn.addLayer(new OutputLayer(2, new SoftMax()));

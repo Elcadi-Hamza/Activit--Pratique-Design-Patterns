@@ -130,3 +130,25 @@ Réseau avec 2 neurones en entrée, 3 neurones cachés (sigmoïde) et 1 neurone 
 - **Test 6 :** `fit()` fait passer un nouveau réseau directement de `CONSTRUCTION` à `TRAINED`.
 
 ![Adapter et fit](../screenShots/A7/4.png)
+
+## Amélioration : pattern Builder
+`NeuralNetworkBuilder` assemble le réseau étape par étape, puis `build()` crée le réseau et connecte les couches entre elles.
+
+```java
+NeuralNetwork nn = new NeuralNetworkBuilder()
+        .inputLayer(3)
+        .hiddenLayer(5, new Sigmoid())
+        .outputLayer(2, new SoftMax())
+        .build();
+```
+
+`hiddenLayer(Layer)` accepte aussi une couche déjà créée, par exemple une couche décorée (Decorator) :
+
+```java
+HiddenLayer hidden = new HiddenLayer(5, new Sigmoid());
+NeuralNetwork nn = new NeuralNetworkBuilder()
+        .inputLayer(3)
+        .hiddenLayer(new NormalizationDecorator(hidden))
+        .outputLayer(2, new SoftMax())
+        .build();
+```
