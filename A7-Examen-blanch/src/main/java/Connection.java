@@ -22,6 +22,9 @@ public class Connection {
     }
 
     public void setWeight(double weight) {
+        if(weight<0 || weight>1){
+            throw new RuntimeException("weight must be between 0 and 1");
+        }
         this.weight = weight;
     }
 
